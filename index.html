@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // http://pokeapi.co/media/img/1.png
+            for (let i = 1; i <= 151; i++) {
+                $('#allThePokemon').append("<img class='pokeImage' id=" + i +
+                    " src='http://pokeapi.co/media/img/" + i +
+                    ".png'>");
+            }
+
+            $("#allThePokemon img").on("click", function () {
+                $("h5").remove();
+                var avatar = $(this).attr("src");
+                var pokeID = $(this).attr("id");
+                var getURL = "http://pokeapi.co/api/v1/pokemon/" + pokeID + "/";
+                var typesHtmlString = "";
+                var heightHtmlString = "";
+                var weightHtmlString = "";
+
+                $.get(getURL, function (pokeMon) {
+                    for (let i = 0; i < pokeMon.types.length; i++) {
+                        typesHtmlString += "<h5>" + pokeMon.types[i].name + "</h5>";
+                    }
+                    heightHtmlString += "<h5>" + pokeMon.height + "</h5>";
+                    weightHtmlString += "<h5>" + pokeMon.weight + "</h5>";
+
+                    $("#types").after(typesHtmlString);
+                    $("#height").after(heightHtmlString);
+                    $("#weight").after(weightHtmlString);
+                    $("#avatar").attr("src", avatar);
+
+                })
+
+            })
+
+
+
+
+        })
+    </script>
+    <style>
+        body {
+            width: 90%;
+            margin: 20px auto;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #allThePokemon {
+            width: 70%;
+            margin: 0px auto;
+            display: inline-block;
+        }
+
+        #pokeDisplay {
+            width: 26%;
+            border: 1px solid #999;
+            border-radius: 4px;
+            text-align: center;
+            display: inline-block;
+            margin: 0px auto;
+            height: 600px;
+            padding: 10px;
+            vertical-align: top;
+            position: fixed;
+        }
+
+        h5 {
+            color: #888;
+        }
+
+        h2 {
+            color: #444;
+            line-height: 14px;
+        }
+
+        #avatar {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+
+
+
+
+    <title>Pokemon</title>
+</head>
+
+<body>
+    <div id="allThePokemon">
+
+    </div>
+
+    <div id="pokeDisplay">
+        <img id="avatar" src="">
+
+        <h2 id="types">TYPES</h2>
+
+        <h2 id="height">HEIGHT</h2>
+
+        <h2 id="weight">WEIGHT</h2>
+
+    </div>
+
+
+
+</body>
+
+</html>
